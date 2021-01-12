@@ -1,0 +1,11 @@
+{
+    "/api": {
+        "target": "http://localhost/produtos/produtosback/public",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}

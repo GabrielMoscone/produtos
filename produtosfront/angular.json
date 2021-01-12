@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -61,7 +62,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "produtosfront:build"
+            "browserTarget": "produtosfront:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -120,5 +122,8 @@
       }
     }
   },
-  "defaultProject": "produtosfront"
+  "defaultProject": "produtosfront",
+  "cli": {
+    "analytics": "55604251-6979-4b6b-a05f-e5576bf6d92f"
+  }
 }
