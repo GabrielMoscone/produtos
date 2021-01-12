@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
+use App\Product;
+
+class ProductController extends Controller
+{
+    public function index()
+    {
+        $products = Product::all();
+
+        return response()->json($products, 200);
+    }
+
+    public function show($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+            return response()->json($product, 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+    }
+
+    public function create(Request $request)
+    {
+        $rules = [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'active' => 'required|boolean',
+        ];
+
+        $messages = [
+            'name.required' => 'O atributo nome é obrigatório',
+            'description.required' => 'O atributo descrição é obrigatório',
+            'price.required' => 'O atributo preço é obrigatório',
+            'active.required' => 'O atributo ativo é obrigatório',
+            'price.numeric' => 'O atributo preço deve ser númerico',
+            'active.boolean' => 'O atributo ativo deve ser boolean',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        $product = new Product();
+
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->active = $request->input('active');
+
+        $product->save();
+
+        return response()->json(['message' => 'Produto cadastrado com sucesso!', 201]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'active' => 'required|boolean',
+        ];
+
+        $messages = [
+            'name.required' => 'O atributo nome é obrigatório',
+            'description.required' => 'O atributo descrição é obrigatório',
+            'price.required' => 'O atributo preço é obrigatório',
+            'active.required' => 'O atributo ativo é obrigatório',
+            'price.numeric' => 'O atributo preço deve ser númerico',
+            'active.boolean' => 'O atributo ativo deve ser boolean',
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        try {
+            $product = Product::findOrFail($id);
+
+            $product->name = $request->input('name');
+            $product->description = $request->input('description');
+            $product->price = $request->input('price');
+            $product->active = $request->input('active');
+
+            $product->save();
+
+            return response()->json(['message' => 'Produto atualizado com sucesso!', 200]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+    }
+
+    public function active($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            $product->active = true;
+
+            $product->save();
+
+            return response()->json(['message' => 'Produto marcado como ativo!', 200]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+    }
+
+    public function inactive($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            $product->active = false;
+
+            $product->save();
+
+            return response()->json(['message' => 'Produto marcado como inativo!', 200]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $product = Product::findOrFail($id);
+
+            $product->delete();
+
+            return response()->json(['message' => 'Produto removido com sucesso!', 200]);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado'], 404);
+        }
+    }
+}
