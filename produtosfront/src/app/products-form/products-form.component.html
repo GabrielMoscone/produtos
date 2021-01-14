@@ -8,10 +8,16 @@
                 <div class="form-group col-6">
                     <label for="name">Nome</label>
                     <input type="text" name="name" id="name" [ngClass]="isInvalidField('name') ? 'form-control is-invalid' : 'form-control'" [(ngModel)]="item.name">
+                    <div *ngIf="isInvalidField('name')" class="text-danger">
+                        {{errorMessages.name}}
+                    </div>
                 </div>
                 <div class="form-group col-6">
                     <label for="price">Preço</label>
                     <input type="number" name="price" id="price" [ngClass]="isInvalidField('price') ? 'form-control is-invalid' : 'form-control'" [(ngModel)]="item.price">
+                    <div *ngIf="isInvalidField('price')" class="text-danger">
+                        {{errorMessages.price}}
+                    </div>
                 </div>
             </div>
 
@@ -19,6 +25,9 @@
                 <div class="form-group col-12">
                     <label for="description">Descrição</label>
                     <textarea name="description" id="description" [ngClass]="isInvalidField('description') ? 'form-control is-invalid' : 'form-control'" rows="5" [(ngModel)]="item.description"></textarea>
+                    <div *ngIf="isInvalidField('description')" class="text-danger">
+                        {{errorMessages.description}}
+                    </div>
                 </div>
             </div>
 

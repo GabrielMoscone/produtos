@@ -12,6 +12,7 @@ export class ProductsFormComponent implements OnInit {
 
   item: Product;
   errorFields: string[];
+  errorMessages: object;
 
   @ViewChild("alert") alert;
 
@@ -19,6 +20,7 @@ export class ProductsFormComponent implements OnInit {
     this.item = new Product();
     this.item.active = true;
     this.errorFields = [];
+    this.errorMessages = {};
   }
 
   ngOnInit(): void {
@@ -55,11 +57,14 @@ export class ProductsFormComponent implements OnInit {
 
   private callbackError(error: any){
 
-    Object.keys(error.error).map(field => this.errorFields.push(field));
+    Object.keys(error.error).map(field => {
+      this.errorFields.push(field);
+      this.errorMessages[field] = error.error[field];
+    });
 
     this.alert.type = "danger";
 
-    if(error.status == 442){
+    if(error.status == 422){
       this.alert.message = "Não foi possível salvar o registro. Os campos destacados estão inválidos.";
     }else{
       this.alert.message = "Ocorreu um problema ao salvar o registro.";

@@ -15,7 +15,9 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.product_id }} - {{ item.product_name }}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.grade }}</td>
+                <td>
+                    <ngb-rating [(rate)]="item.grade" [max]="5" [readonly]="true"></ngb-rating>
+                </td>
                 <td>
                     <div class="btn-group">
                         <a [routerLink]="'/produtos/' + item.product_id + '/avaliacoes/' + item.id" class="btn btn-success">Editar</a>

@@ -40,7 +40,7 @@ export class ProductsListComponent implements OnInit {
 
   private callbackError(error: any){
     this.alert.type = "danger";
-    this.alert.message = "Ocorreu um problema a excluir";
+    this.alert.message = "Ocorreu um problema a excluir: " + error.error.message;
     console.log(error);
   }
 
